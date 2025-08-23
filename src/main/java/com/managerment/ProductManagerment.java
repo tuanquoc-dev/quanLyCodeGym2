@@ -27,8 +27,15 @@ public class ProductManagerment implements IManagerment<Product> {
     public void update(Long id, Product newProduct) throws Exception {
         int index = this.findIndexById(id);
         Product oldProduct = this.list.get(index);
-        oldProduct.setId(newProduct.getId());
-        this.list.set(index, newProduct);
+
+        // KHÔNG đổi id. Chỉ cập nhật các trường thay đổi
+        oldProduct.setName(newProduct.getName());
+        oldProduct.setPrice(newProduct.getPrice());
+        oldProduct.setProductTypeId(newProduct.getProductTypeId());
+
+        // nếu muốn thay thế hoàn toàn:
+        // newProduct.setId(id);
+        // this.list.set(index, newProduct);
     }
 
     @Override
