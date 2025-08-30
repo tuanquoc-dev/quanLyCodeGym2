@@ -1,6 +1,6 @@
 package com.management;
 
-import com.repository.ProductDatabase;
+import com.repository.ProductRepository;
 import com.model.Product;
 import com.model.ProductType;
 
@@ -10,11 +10,11 @@ import java.util.List;
 public class ProductManagerment implements IManagerment<Product> {
     private List<Product> list;
     private ProductTypeManagerment productTypeManagerment;
-    private ProductDatabase productDatabase;
+    private ProductRepository productDatabase;
 
     public ProductManagerment(ProductTypeManagerment productTypeManagerment) {
         this.productTypeManagerment = productTypeManagerment;
-        this.productDatabase = new ProductDatabase();
+        this.productDatabase = new ProductRepository();
         this.list = new ArrayList<>();
 
         // ✅ Load dữ liệu từ file khi khởi tạo

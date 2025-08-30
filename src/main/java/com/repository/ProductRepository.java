@@ -6,10 +6,10 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductDatabase {
+public class ProductRepository {
     private final File file;
 
-    public ProductDatabase() {
+    public ProductRepository() {
         this.file = new File("database/product.csv");
         createFileIfNotExists();
     }

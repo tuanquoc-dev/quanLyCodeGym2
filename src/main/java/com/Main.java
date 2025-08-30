@@ -1,13 +1,15 @@
 package com;
 
-import com.menu.MainMenu;
+import com.menu.AuthMenu;
+import com.service.UserService;
 
 import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        MainMenu mainmenu = new MainMenu();
-        mainmenu.showMainMenu();
+        UserService userService = new UserService();
+        AuthMenu authMenu = new AuthMenu(userService);
+        authMenu.showAuthMenu();
 
 
 

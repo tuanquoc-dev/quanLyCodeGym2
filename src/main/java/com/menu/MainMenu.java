@@ -5,16 +5,19 @@ import com.management.ProductManagerment;
 import com.management.ProductTypeManagerment;
 import com.model.Product;
 import com.model.ProductType;
+import com.model.User;
 
 import java.util.List;
 
 public class MainMenu {
     private final ProductManagerment productManagerment;
     private final ProductTypeManagerment productTypeManagerment;
+    private final User currentUser; // người đang đăng nhập
 
-    public MainMenu() {
+    public MainMenu(User user) {
         this.productTypeManagerment = new ProductTypeManagerment();
         this.productManagerment = new ProductManagerment(productTypeManagerment);
+        this.currentUser = user;
     }
 
     // ======================== MAIN MENU ========================
@@ -38,6 +41,8 @@ public class MainMenu {
             }
         } while (choice != 0);
     }
+
+
 
     // =================== PRODUCT TYPE MENU =====================
     public void showProductTypeMenu() {
@@ -80,9 +85,9 @@ public class MainMenu {
     public void showFormAddProductType() {
         System.out.println("------ Thêm loại sản phẩm ------");
         System.out.print("1. Tên loại: ");
-        String name = Input.inputString();
+        String name = Input.inputString("Nhập username: ");
         System.out.print("2. Mô tả: ");
-        String description = Input.inputString();
+        String description = Input.inputString("Nhập username: ");
         ProductType productType = new ProductType(name, description);
         this.productTypeManagerment.add(productType);
         System.out.println("✅ Thêm loại sản phẩm thành công");
@@ -106,7 +111,7 @@ public class MainMenu {
             }
             System.out.printf("Bạn có chắc chắn muốn xoá loại sản phẩm '%s' (Id: %d)? (y/n): ",
                     productType.getName(), productType.getId());
-            String confirm = Input.inputString();
+            String confirm = Input.inputString("Nhập username: ");
             if (confirm.equalsIgnoreCase("y")) {
                 productTypeManagerment.delete(id);
                 System.out.println("✅ Xóa thành công!");
@@ -139,10 +144,10 @@ public class MainMenu {
         try {
             ProductType oldProductType = productTypeManagerment.findById(id);
             System.out.print("Tên loại mới (Enter để giữ [" + oldProductType.getName() + "]): ");
-            String name = Input.inputString();
+            String name = Input.inputString("Nhập username: ");
             if (name.trim().isEmpty()) name = oldProductType.getName();
             System.out.print("Mô tả mới (Enter để giữ [" + oldProductType.getDescription() + "]): ");
-            String description = Input.inputString();
+            String description = Input.inputString("Nhập username: ");
             if (description.trim().isEmpty()) description = oldProductType.getDescription();
             ProductType newProductType = new ProductType(id, name, description);
             productTypeManagerment.update(id, newProductType);
@@ -209,7 +214,7 @@ public class MainMenu {
     public void showFormAddProduct() {
         System.out.println("----------- Thêm sản phẩm -----------");
         System.out.print("1. Tên sản phẩm: ");
-        String name = Input.inputString();
+        String name = Input.inputString("Nhập username: ");
         System.out.print("2. Giá sản phẩm: ");
         double price = Input.inputDouble();
         System.out.print("3. Số lượng: ");
@@ -266,7 +271,7 @@ public class MainMenu {
             }
             System.out.printf("Bạn có chắc chắn muốn xoá sản phẩm '%s' (Id: %d)? (y/n): ",
                     product.getName(), product.getId());
-            String confirm = Input.inputString();
+            String confirm = Input.inputString("Nhập username: ");
             if (confirm.equalsIgnoreCase("y")) {
                 productManagerment.delete(id);
                 System.out.println("✅ Xóa thành công!");
@@ -289,10 +294,10 @@ public class MainMenu {
                 return;
             }
             System.out.print("Tên sản phẩm mới (Enter để giữ [" + oldProduct.getName() + "]): ");
-            String name = Input.inputString();
+            String name = Input.inputString("Nhập username: ");
             if (name.trim().isEmpty()) name = oldProduct.getName();
             System.out.print("Giá mới (Enter để giữ [" + oldProduct.getPrice() + "]): ");
-            String priceStr = Input.inputString();
+            String priceStr = Input.inputString("Nhập username: ");
             double price;
             if (priceStr.trim().isEmpty()) {
                 price = oldProduct.getPrice();
@@ -305,7 +310,7 @@ public class MainMenu {
                 }
             }
             System.out.print("Số lượng mới (Enter để giữ [" + oldProduct.getQuantity() + "]): ");
-            String quantityStr = Input.inputString();
+            String quantityStr = Input.inputString("Nhập username: ");
             int quantity;
             if (quantityStr.trim().isEmpty()) {
                 quantity = oldProduct.getQuantity();
@@ -327,7 +332,7 @@ public class MainMenu {
                 System.out.println(productType);
             }
             System.out.print("Nhập Id loại sản phẩm mới (Enter để giữ [" + oldProduct.getProductTypeId() + "]): ");
-            String typeIdStr = Input.inputString();
+            String typeIdStr = Input.inputString("Nhập username: ");
             Long typeId;
             if (typeIdStr.trim().isEmpty()) {
                 typeId = oldProduct.getProductTypeId();
@@ -367,7 +372,7 @@ public class MainMenu {
             switch (choice) {
                 case 1 -> {
                     System.out.print("Nhập từ khóa tên sản phẩm: ");
-                    String keyword = Input.inputString();
+                    String keyword = Input.inputString("Nhập username: ");
                     List<Product> results = productManagerment.searchByName(keyword);
                     showProducts(results);
                 }

@@ -1,6 +1,6 @@
 package com.management;
 
-import com.repository.ProductTypeDatabase;
+import com.repository.ProductTypeRepository;
 import com.model.ProductType;
 
 import java.util.ArrayList;
@@ -8,11 +8,11 @@ import java.util.List;
 
 public class ProductTypeManagerment implements IManagerment<ProductType> {
     private List<ProductType> list;
-    private ProductTypeDatabase productTypeDatabase;
+    private ProductTypeRepository productTypeDatabase;
     private Long currentId = 1L; // Auto-increment ID
 
     public ProductTypeManagerment() {
-        this.productTypeDatabase = new ProductTypeDatabase();
+        this.productTypeDatabase = new ProductTypeRepository();
         this.list = productTypeDatabase.readData();
 
         if (this.list == null) {
