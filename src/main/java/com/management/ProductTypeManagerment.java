@@ -1,4 +1,6 @@
-package com.managerment;
+package com.management;
+
+import com.repository.ProductTypeDatabase;
 import com.model.ProductType;
 
 import java.util.ArrayList;
@@ -6,21 +8,40 @@ import java.util.List;
 
 public class ProductTypeManagerment implements IManagerment<ProductType> {
     private List<ProductType> list;
+    private ProductTypeDatabase productTypeDatabase;
+    private Long currentId = 1L; // Auto-increment ID
 
     public ProductTypeManagerment() {
-        list = new ArrayList<>();
-    }
+        this.productTypeDatabase = new ProductTypeDatabase();
+        this.list = productTypeDatabase.readData();
 
+        if (this.list == null) {
+            this.list = new ArrayList<>();
+        }
+
+        // Xác định currentId = maxId + 1
+        Long maxId = 0L;
+        for (ProductType pt : this.list) {
+            if (pt.getId() != null && pt.getId() > maxId) {
+                maxId = pt.getId();
+            }
+        }
+        this.currentId = maxId + 1;
+    }
 
     @Override
     public void add(ProductType productType) {
+        // Auto-increment ID
+        productType.setId(currentId++);
         this.list.add(productType);
+        productTypeDatabase.writeData(this.list);
     }
 
     @Override
     public void delete(Long id) throws Exception {
         int index = this.findIndexById(id);
         this.list.remove(index);
+        productTypeDatabase.writeData(this.list);
     }
 
     @Override
@@ -28,17 +49,15 @@ public class ProductTypeManagerment implements IManagerment<ProductType> {
         int index = this.findIndexById(id);
         ProductType old = this.list.get(index);
 
-        // KHÔNG đổi id, chỉ cập nhật các trường
+        // Chỉ cập nhật name & description
         old.setName(newProductType.getName());
         old.setDescription(newProductType.getDescription());
 
-        // hoặc thay thế hoàn toàn:
-        // newProductType.setId(id);
-        // this.list.set(index, newProductType);
+        productTypeDatabase.writeData(this.list);
     }
 
     @Override
-    public ProductType findById(Long id)  throws Exception {
+    public ProductType findById(Long id) throws Exception {
         int index = this.findIndexById(id);
         return this.list.get(index);
     }
@@ -55,6 +74,6 @@ public class ProductTypeManagerment implements IManagerment<ProductType> {
                 return i;
             }
         }
-        throw new Exception("Data not found");
+        throw new Exception("ProductType with id " + id + " not found");
     }
 }

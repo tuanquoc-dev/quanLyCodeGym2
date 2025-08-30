@@ -4,17 +4,21 @@ public class Product {
     private Long id;
     private String name;
     private double price;
-    private Long productTypeId;
-    private static  Long countId = 100L;
+    private int quantity;
+    private Long typeId;
 
-    public Product( String name, double price, Long productTypeId) {
-        this.id = countId;
-        this.name = name;
-        this.price = price;
-        this.productTypeId = productTypeId;
-        countId++;
+    public Product() {
     }
 
+    public Product(Long id, String name, double price, int quantity, Long typeId) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.typeId = typeId;
+    }
+
+    // Getter & Setter
     public Long getId() {
         return id;
     }
@@ -39,20 +43,30 @@ public class Product {
         this.price = price;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     public Long getProductTypeId() {
-        return productTypeId;
+        return typeId;
     }
 
-    public void setProductTypeId(Long productTypeId) {
-        this.productTypeId = productTypeId;
+    public void setProductTypeId(Long typeId) {
+        this.typeId = typeId;
     }
 
-    public static Long getCountId() {
-        return countId;
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                ", typeId=" + typeId +
+                '}';
     }
-
-    public static void setCountId(Long countId) {
-        Product.countId = countId;
-    }
-
 }

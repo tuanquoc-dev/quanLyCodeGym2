@@ -4,15 +4,20 @@ public class ProductType {
     private Long id;
     private String name;
     private String description;
-    private static Long countId = 100L;
 
-    public ProductType(String name, String description) {
-        this.id = countId;
-        this.description = description;
+    public ProductType(Long id, String name, String description) {
+        this.id = id;
         this.name = name;
-        countId++;
+        this.description = description;
     }
 
+    // 👉 Constructor không có id (sẽ được gán khi add trong Managerment)
+    public ProductType(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    // Getter & Setter
     public Long getId() {
         return id;
     }
@@ -37,15 +42,12 @@ public class ProductType {
         this.description = description;
     }
 
-    public static Long getCountId() {
-        return countId;
-    }
-
-    public static void setCountId(Long countId) {
-        ProductType.countId = countId;
-    }
-
+    @Override
     public String toString() {
-        return "Id: " + id + " - " + "Name: " + name;
+        return "ProductType {" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }
